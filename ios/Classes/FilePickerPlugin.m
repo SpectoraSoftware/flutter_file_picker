@@ -246,6 +246,10 @@
         PHPickerViewController *pickerViewController = [[PHPickerViewController alloc] initWithConfiguration:config];
         pickerViewController.delegate = self;
         pickerViewController.presentationController.delegate = self;
+
+        // Add explicit presentation style
+        pickerViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+
         [[self viewControllerWithWindow:nil] presentViewController:pickerViewController animated:YES completion:nil];
         return;
     }
