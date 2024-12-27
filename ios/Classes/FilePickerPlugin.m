@@ -576,6 +576,7 @@ didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
                                 [[NSUUID UUID] UUIDString],
                                 (long)[[NSDate date] timeIntervalSince1970],
                                 url.pathExtension.length > 0 ? url.pathExtension : @"jpg"];
+                            NSString * extension = [filename pathExtension];
                             
                             NSString *destinationPath = [imagesDir stringByAppendingPathComponent:filename];
                             NSURL *destinationUrl = [NSURL fileURLWithPath:destinationPath];
@@ -593,6 +594,7 @@ didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
                                         //Get meta data from asset
                                         NSDictionary *metaData = [ImageUtils getMetaDataFromImageData:assetData];
                                         //Append meta data into jpeg of live photo
+                                        NSError *loadError = nil;
                                         NSData *imageData = [ImageUtils imageFromImage:convertedImageData withMetaData:metaData];
 
                                         // Write to destination
