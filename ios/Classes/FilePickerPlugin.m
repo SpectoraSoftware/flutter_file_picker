@@ -553,13 +553,14 @@ didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
         
         dispatch_async(processQueue, ^{
             @autoreleasepool {
-                if (![result.itemProvider hasItemConformingToTypeIdentifier:@"public.image"]) {
-                    [errors addObject:[NSString stringWithFormat:@"Item at index %ld is not an image", (long)index]];
-                    dispatch_group_leave(self->_group);
-                    return;
+                NSString *typeIdentifier;
+                if (isImageSelection && [result.itemProvider hasItemConformingToTypeIdentifier:@"public.image"]) {
+                    typeIdentifier = @"public.image";
+                } else {
+                    typeIdentifier = @"public.audiovisual-content";
                 }
 
-                [result.itemProvider loadFileRepresentationForTypeIdentifier:@"public.image" completionHandler:^(NSURL * _Nullable url, NSError * _Nullable error) {
+                [result.itemProvider loadFileRepresentationForTypeIdentifier:typeIdentifier completionHandler:^(NSURL * _Nullable url, NSError * _Nullable error) {
                     @autoreleasepool {
                         if (error != nil || url == nil) {
                             [errors addObject:[NSString stringWithFormat:@"Failed to load image at index %ld: %@",
